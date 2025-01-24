@@ -1,1 +1,3 @@
-SELECT * FROM matches;
+--SELECT * FROM matches;
+DROP TABLE goals;
+DROP TABLE players;
