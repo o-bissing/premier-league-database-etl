@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey
+from sqlalchemy import Table, Column, Integer, String, Date, MetaData, ForeignKey, CheckConstraint
 
 # Metadata for table definitions
 metadata = MetaData()
@@ -12,6 +12,19 @@ teams_table = Table(
     Column("founded_year", Integer),
     Column("stadium", String(100)),
     Column("manager", String(100))
+)
+
+# Define the Matches table schema
+matches_table = Table(
+    "matches", metadata,
+    Column("match_id", Integer, primary_key=True, autoincrement=True),
+    Column("home_team_id", Integer, ForeignKey("teams.team_id"), nullable=False),
+    Column("away_team_id", Integer, ForeignKey("teams.team_id"), nullable=False),
+    Column("match_date", Date),
+    Column("stadium", String(100)),
+    Column("home_score", Integer),
+    Column("away_score", Integer),
+    Column("result", String(10), CheckConstraint("result IN ('home', 'away', 'draw')"))
 )
 
 # Define the Standings table schema

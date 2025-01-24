@@ -3,6 +3,7 @@ import json
 from sqlalchemy import select
 from api_settings import base_url, headers
 from mapping import teams_table
+from api_settings import base_url, headers
 
 # Save JSON response to a file
 def save_json_to_file(data, filename):
