@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS Goals (
 CREATE TABLE IF NOT EXISTS Standings (
     standings_id SERIAL PRIMARY KEY,
     team_id INT REFERENCES Teams(team_id),
-    season VARCHAR(10),
+    season INT,
     matches_played INT,
     wins INT,
     draws INT,

@@ -1,6 +1,8 @@
 import requests
 import json
+from sqlalchemy import select
 from api_settings import base_url, headers
+from mapping import teams_table
 
 # Save JSON response to a file
 def save_json_to_file(data, filename):
@@ -16,3 +18,15 @@ def fetch_data(endpoint, params=None):
     else:
         print(f"Failed to fetch data: {response.status_code}")
         return None
+    
+
+# Function to retrieve team_id
+def get_team_id(session, team_name):
+    # Query the teams table for the team_id based on the team_name
+    team_query = select(teams_table.c.team_id).where(teams_table.c.team_name == team_name)
+    team_id = session.execute(team_query).scalar_one_or_none()
+
+    if team_id is None:
+        raise ValueError(f"Team '{team_name}' not found in the teams table.")
+    
+    return team_id

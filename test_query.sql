@@ -1,1 +1,1 @@
-SELECT * FROM Teams;
+SELECT * FROM standings;

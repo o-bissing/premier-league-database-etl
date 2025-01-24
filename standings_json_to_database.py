@@ -1,48 +1,66 @@
 from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData, select
 from sqlalchemy.orm import sessionmaker
 import json
-from mapping import teams_table
+from mapping import standings_table
 from api_settings import DATABASE_URL
+from functions import get_team_id
 
 # Database connection setup
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# Check if a team exists and insert if not
-def upsert_team(team_data):
-    team_name = team_data['team']['name']
-    city = team_data['venue']['city']
-    founded_year = team_data['team']['founded']
-    stadium = team_data['venue']['name']
-    manager = None  # no manager info in this response
+# Check if standings exist and insert if not
+def upsert_standings(standing, season):
+    team_id = get_team_id(session, standing['team']['name'])  # Extract team name from the nested structure
+    matches_played = standing['all']['played']
+    wins = standing['all']['win']
+    draws = standing['all']['draw']
+    losses = standing['all']['lose']
+    goals_for = standing['all']['goals']['for']
+    goals_against = standing['all']['goals']['against']
+    goal_difference = standing['goalsDiff']
+    points = standing['points']
+    table_position = standing['rank']
     
-    # Query to check for existing team
-    query = select(teams_table).where(teams_table.c.team_name == team_name)
+    # Query to check for existing standings
+    query = select(standings_table).where(
+        standings_table.c.team_id == team_id,
+        standings_table.c.season == season
+    )
     result = session.execute(query).fetchone()
     
     if result:
-        print(f"Team '{team_name}' already exists in the database.")
+        print(f"Standings for team '{standing['team']['name']}' in season '{season}' already exist in the database.")
     else:
-        # Insert the new team
-        insert_query = teams_table.insert().values(
-            team_name=team_name,
-            city=city,
-            founded_year=founded_year,
-            stadium=stadium,
-            manager=manager
+        # Insert standings
+        insert_query = standings_table.insert().values(
+            team_id=team_id,
+            season=season,
+            matches_played=matches_played,
+            wins=wins,
+            draws=draws,
+            losses=losses,
+            goals_for=goals_for,
+            goals_against=goals_against,
+            goal_difference=goal_difference,
+            points=points,
+            table_position=table_position
         )
         session.execute(insert_query)
         session.commit()
-        print(f"Team '{team_name}' has been added to the database.")
+        print(f"Standings for team '{standing['team']['name']}' in season '{season}' have been added to the database.")
 
 # Load JSON data
-with open('json_files/teams2023.json', 'r') as file:
+with open('json_files/standings2023.json', 'r') as file:
     data = json.load(file)
 
-# Loop through the teams and upsert into the database
-for team_entry in data['response']:
-    upsert_team(team_entry)
+# Loop through the standings and upsert into the database
+season = data['response'][0]['league']['season']  # Extract season from the JSON
+standings_list = data['response'][0]['league']['standings'][0]  # Extract the first (and only) standings list
+
+for standing in standings_list:
+    upsert_standings(standing, season)
 
 # Close session when done
 session.close()
