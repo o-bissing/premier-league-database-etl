@@ -1,26 +1,13 @@
 from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData, select
 from sqlalchemy.orm import sessionmaker
 import json
+from mapping import teams_table
 from api_settings import DATABASE_URL
 
 # Database connection setup
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
 session = Session()
-
-# Metadata for table definitions
-metadata = MetaData()
-
-# Define the Teams table schema
-teams_table = Table(
-    "teams", metadata,
-    Column("team_id", Integer, primary_key=True),
-    Column("team_name", String(100)),
-    Column("city", String(100)),
-    Column("founded_year", Integer),
-    Column("stadium", String(100)),
-    Column("manager", String(100))
-)
 
 # Check if a team exists and insert if not
 def upsert_team(team_data):
