@@ -2,6 +2,7 @@ import requests
 import json
 from api_settings import base_url, headers
 
+
 # Save JSON response to a file
 def save_json_to_file(data, filename):
     with open(filename, 'w') as file:
@@ -17,8 +18,8 @@ def fetch_data(endpoint, params=None):
         print(f"Failed to fetch data: {response.status_code}")
         return None
 
-# Example: Fetch teams in the English Premier League (league id: 39, season: 2023)
-teams_data = fetch_data('teams', params={'league': 39, 'season': 2023})
-filename = 'teams2023.json'
+# Fetch standings in the English Premier League (league id: 39, season: 2023)
+teams_data = fetch_data('standings', params={'league': 39, 'season': 2023})
+filename = 'standings2023.json'
 
 save_json_to_file(teams_data, filename)
