@@ -10,14 +10,14 @@ I love watching English Premier League and at some point I came up with an idea 
 
 To create this project I worked with the following tools/technologies:
 
-- **ETL** tools to extract the data from an API, transform it and load into a PostgreSQL database with following visualisation using Power BI
+- **ETL** tools to extract the data from an API, transform it and load into a PostgreSQL database with subsequent visualisation using Power BI
 - **REST** technology to communicate with an API
 - **JSON** file format for storing the data before it would be transferred into a table
 - **requests** python library for fetching the data from the API
 - **SQLAlchemy** python library for transfering the data from JSON file to the table
 - **pgAdmin** for managing the database, creating ERD diagram
-- **ChatGPT** to help with fixing some errors and creating a complicated SQL-query
 - **Power BI** to create a report
+- **ChatGPT** to help with fixing some errors and creating a complicated SQL-query
 - **Bash** for interaction with OS, doing terminal based tasks and working with GitHub
 - **Git** for version control
 
@@ -166,7 +166,7 @@ Unfortunately, longest winning streaks for each team query was a bit too ambitio
 
 ## Power BI report
 
-To get map visualisations data adjustments in Power BI were neccesary. To get map to "see" cities: fetched city info was loaded in a inappropriate format and also naming needed to be adjusted since maps do not recognize them if there is additional information, for example "Wolverhampton, West Midlands" needed to be changed to just "Wolverhampton".
+To create map visualisations data adjustments in Power BI were neccesary. For example, to be able to create the map visuals: fetched city info was loaded in a inappropriate format and also naming needed to be adjusted since maps do not recognize them if there is additional information, such as "Wolverhampton, West Midlands", so it needed to be changed to just "Wolverhampton".
 
 Finally I came up with the following visualisations:
 
