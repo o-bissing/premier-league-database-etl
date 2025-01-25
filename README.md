@@ -16,6 +16,7 @@ To create this project I worked with following tools:
 - **SQLAlchemy library** for transfering the data from .json file to the table
 - **pgAdmin** for managing the database, creating ERD diagram
 - **ChatGPT** to help with fixing some errors and creating a complicated SQL-query
+- **Power BI** to create a report
 - **Bash** for interaction with OS, doing terminal based tasks and working with GitHub
 - **Git** for version control
 
@@ -106,4 +107,4 @@ With following results (visualized using Power BI):
 
 ![Power BI visualisation](img/Power_BI_visualisation.jpg)
 
-!!! To get map visualisations data adjustments in Power BI were neccesary
+!!! To get map visualisations data adjustments in Power BI were neccesary (to get map to see cities: fetched city info was loaded in a inappropriate format and also naming needed to be adjusted since maps do not recognize them if there is additional information, for example "Wolverhampton, West Midlands" needed to be changed to just "Wolverhampton").
