@@ -4,16 +4,17 @@ Goal of this project is to enchance my Data Engineering and Analytics skills. Da
 
 ## Background
 
-I love watching English Premier League and at some point I came up with an idea that it would be great to create a dataset using PostgreSQL by fetching data from some API. Football data provides an excellent opportunity for analyse and visualisation.
+I love watching English Premier League and at some point I came up with an idea that it would be great to create a dataset using PostgreSQL by fetching data from some API. Football data also provides an excellent opportunity for analyse and visualisation.
 
 ## Tools I used
 
-To create this project I worked with following tools:
+To create this project I worked with the following tools/technologies:
 
-- **ETL**
-- **REST**
-- **requests library** for fetching the data from the API
-- **SQLAlchemy library** for transfering the data from .json file to the table
+- **ETL** tools to extract the data from an API, transform it and load into a PostgreSQL database with following visualisation using Power BI
+- **REST** technology to communicate with an API
+- **JSON** file format for storing the data before it would be transferred into a table
+- **requests** python library for fetching the data from the API
+- **SQLAlchemy** python library for transfering the data from JSON file to the table
 - **pgAdmin** for managing the database, creating ERD diagram
 - **ChatGPT** to help with fixing some errors and creating a complicated SQL-query
 - **Power BI** to create a report
@@ -54,9 +55,9 @@ def fetch_data(endpoint, params=None):
         return None
 ```
 
-Response had been then saved as .json file for further use.
+Response had been then saved as JSON file for further use.
 
-To transfer the data from .json file to the table I used python's SQLAlchemy library.
+To transfer the data from JSON file to the table I used python's SQLAlchemy library.
 Firstly a mapping should be done. In this case I have been using imperative table definitions because I was going to use raw SQL queries to train these skills as well. Example of mapping is below:
 
 ```python
@@ -73,13 +74,71 @@ matches_table = Table(
 )
 ```
 
-Then all the data has been transfered into the tables.
+When mapping was ready time has come to transfer data from JSON to tables.
+
+For example following code had been used to transfer data into a "Teams" table:
+
+```python
+from sqlalchemy import create_engine, MetaData, select
+from sqlalchemy.orm import sessionmaker
+import json
+from api_settings import DATABASE_URL
+from mapping import teams_table
+
+# Database connection setup
+engine = create_engine(DATABASE_URL)
+Session = sessionmaker(bind=engine)
+session = Session()
+
+# Metadata for table definitions
+metadata = MetaData()
+
+# Check if a team exists and insert if not
+def upsert_team(team_data):
+    team_name = team_data['team']['name']
+    city = team_data['venue']['city']
+    founded_year = team_data['team']['founded']
+    stadium = team_data['venue']['name']
+    manager = None  # no manager info in this response
+
+    # Query to check for existing team
+    query = select(teams_table).where(teams_table.c.team_name == team_name)
+    result = session.execute(query).fetchone()
+
+    if result:
+        print(f"Team '{team_name}' already exists in the database.")
+    else:
+        # Insert the new team
+        insert_query = teams_table.insert().values(
+            team_name=team_name,
+            city=city,
+            founded_year=founded_year,
+            stadium=stadium,
+            manager=manager
+        )
+        session.execute(insert_query)
+        session.commit()
+        print(f"Team '{team_name}' has been added to the database.")
+
+# Load JSON data
+with open('json_files/teams2023.json', 'r') as file:
+    data = json.load(file)
+
+# Loop through the teams and upsert into the database
+for team_entry in data['response']:
+    upsert_team(team_entry)
+
+# Close session when done
+session.close()
+```
+
+After all the data has been transfered into the tables it was time to write some SQL queries.
 
 ## SQL queries
 
 To practice SQL-skills I came up with 4 queries: to find top scoring stadiums (where the most goals were scored), home standings table (how standings would have looked like if only home games count), away standings table (how standings would have looked like if only away games count) and longest winning streaks for each team.
 
-Home standings query looks as follows:
+For example, home standings query looks as follows:
 
 ```sql
 SELECT
@@ -103,8 +162,12 @@ GROUP BY t.team_name
 ORDER BY home_points DESC, goals_scored_at_home DESC;
 ```
 
-With following results (visualized using Power BI):
+Unfortunately, longest winning streaks for each team query was a bit too ambitious so I had to use ChatGPT to figure it out.
+
+## Power BI report
+
+To get map visualisations data adjustments in Power BI were neccesary. To get map to "see" cities: fetched city info was loaded in a inappropriate format and also naming needed to be adjusted since maps do not recognize them if there is additional information, for example "Wolverhampton, West Midlands" needed to be changed to just "Wolverhampton".
+
+Finally I came up with the following visualisations:
 
 ![Power BI visualisation](img/Power_BI_visualisation.jpg)
-
-!!! To get map visualisations data adjustments in Power BI were neccesary (to get map to see cities: fetched city info was loaded in a inappropriate format and also naming needed to be adjusted since maps do not recognize them if there is additional information, for example "Wolverhampton, West Midlands" needed to be changed to just "Wolverhampton").
