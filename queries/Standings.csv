@@ -1,21 +1,21 @@
-"position","team"
-1,"Manchester City"
-2,"Arsenal"
-3,"Liverpool"
-4,"Aston Villa"
-5,"Tottenham"
-6,"Chelsea"
-7,"Newcastle"
-8,"Manchester United"
-9,"West Ham"
-10,"Crystal Palace"
-11,"Brighton"
-12,"Bournemouth"
-13,"Fulham"
-14,"Wolves"
-15,"Everton"
-16,"Brentford"
-17,"Nottingham Forest"
-18,"Luton"
-19,"Burnley"
-20,"Sheffield Utd"
+"position","team","points"
+1,"Manchester City",91
+2,"Arsenal",89
+3,"Liverpool",82
+4,"Aston Villa",68
+5,"Tottenham",66
+6,"Chelsea",63
+7,"Newcastle",60
+8,"Manchester United",60
+9,"West Ham",52
+10,"Crystal Palace",49
+11,"Brighton",48
+12,"Bournemouth",48
+13,"Fulham",47
+14,"Wolves",46
+15,"Everton",40
+16,"Brentford",39
+17,"Nottingham Forest",32
+18,"Luton",26
+19,"Burnley",24
+20,"Sheffield Utd",16
