@@ -12,8 +12,6 @@ session = Session()
 # Metadata for table definitions
 metadata = MetaData()
 
-
-
 # Check if a team exists and insert if not
 def upsert_team(team_data):
     team_name = team_data['team']['name']

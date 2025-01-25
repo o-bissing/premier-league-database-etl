@@ -19,7 +19,6 @@ def fetch_data(endpoint, params=None):
     else:
         print(f"Failed to fetch data: {response.status_code}")
         return None
-    
 
 # Function to retrieve team_id
 def get_team_id(session, team_name):
