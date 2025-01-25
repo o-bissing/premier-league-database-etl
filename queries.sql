@@ -6,8 +6,7 @@ SELECT
 FROM Matches m
 JOIN Teams t ON m.stadium = t.stadium
 GROUP BY m.stadium, t.team_name
-ORDER BY total_goals DESC
-LIMIT 5;
+ORDER BY total_goals DESC;
 
 -- 2. Home Standings Query
 SELECT 

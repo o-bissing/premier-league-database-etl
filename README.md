@@ -76,7 +76,7 @@ Then all the data has been transfered into the tables.
 
 ## SQL queries
 
-To practice SQL-skills I came up with 4 queries: to find top scoring stadiums (where the most goals were scored), home standings table (how standings would have looked like if only home games count), away standings table (how standings would have looked like if only away games count) and longes winning streaks for each team.
+To practice SQL-skills I came up with 4 queries: to find top scoring stadiums (where the most goals were scored), home standings table (how standings would have looked like if only home games count), away standings table (how standings would have looked like if only away games count) and longest winning streaks for each team.
 
 Home standings query looks as follows:
 
