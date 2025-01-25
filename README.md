@@ -104,4 +104,6 @@ ORDER BY home_points DESC, goals_scored_at_home DESC;
 
 With following results (visualized using Power BI):
 
+![Power BI visualisation](img/Power_BI_visualisation.jpg)
+
 !!! To get map visualisations data adjustments in Power BI were neccesary
