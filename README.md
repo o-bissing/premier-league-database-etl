@@ -15,6 +15,7 @@ To create this project I worked with following tools:
 - **requests library** for fetching the data from the API
 - **SQLAlchemy library** for transfering the data from .json file to the table
 - **pgAdmin** for managing the database, creating ERD diagram
+- **ChatGPT** to help with fixing some errors and creating a complicated SQL-query
 - **Bash** for interaction with OS, doing terminal based tasks and working with GitHub
 - **Git** for version control
 
@@ -74,3 +75,31 @@ matches_table = Table(
 Then all the data has been transfered into the tables.
 
 ## SQL queries
+
+To practice SQL-skills I came up with 4 queries: to find top scoring stadiums (where the most goals were scored), home standings table (how standings would have looked like if only home games count), away standings table (how standings would have looked like if only away games count) and longes winning streaks for each team.
+
+Home standings query looks as follows:
+
+```sql
+SELECT
+    t.team_name AS team,
+    COUNT(*) AS home_matches_played,
+    SUM(CASE WHEN m.result = 'home' THEN 1 ELSE 0 END) AS home_wins,
+    SUM(CASE WHEN m.result = 'draw' THEN 1 ELSE 0 END) AS home_draws,
+    SUM(CASE WHEN m.result = 'away' THEN 1 ELSE 0 END) AS home_losses,
+    SUM(m.home_score) AS goals_scored_at_home,
+    SUM(m.away_score) AS goals_conceded_at_home,
+    SUM(
+        CASE
+            WHEN m.result = 'home' THEN 3
+            WHEN m.result = 'draw' THEN 1
+            ELSE 0
+        END
+    ) AS home_points
+FROM Matches m
+JOIN Teams t ON m.home_team_id = t.team_id
+GROUP BY t.team_name
+ORDER BY home_points DESC, goals_scored_at_home DESC;
+```
+
+With following results (visualized using Power BI):
