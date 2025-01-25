@@ -2,10 +2,11 @@
 SELECT 
     m.stadium,
     t.team_name AS home_team,
+    t.city,
     SUM(m.home_score + m.away_score) AS total_goals
 FROM Matches m
 JOIN Teams t ON m.stadium = t.stadium
-GROUP BY m.stadium, t.team_name
+GROUP BY m.stadium, t.team_name, t.city
 ORDER BY total_goals DESC;
 
 -- 2. Home Standings Query
