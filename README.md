@@ -10,6 +10,8 @@ I love watching English Premier League and at some point I came up with an idea 
 
 To create this project I worked with the following tools/technologies:
 
+- **Python** as main programming language
+- **SQL** as main data language
 - **ETL** tools to extract the data from an API, transform it and load into a PostgreSQL database with subsequent visualisation using Power BI
 - **REST** technology to communicate with an API
 - **JSON** file format for storing the data before it would be transferred into a table
