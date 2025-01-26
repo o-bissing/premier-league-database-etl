@@ -17,6 +17,7 @@ To create this project I worked with the following tools/technologies:
 - **JSON** file format for storing the data before it would be transferred into a table
 - **requests** python library for fetching the data from the API
 - **SQLAlchemy** python library for transfering the data from JSON file to the table
+- **PostgreSQL** database for storing data
 - **pgAdmin** for managing the database, creating ERD diagram
 - **Power BI** to create a report
 - **ChatGPT** to help with fixing some errors and creating a complicated SQL-query
